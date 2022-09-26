@@ -1,5 +1,6 @@
 package com.jump.interview.questions.hw;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -53,4 +54,62 @@ public class OD_1 {
             }
         }
     }
+
+    /**
+     * 如{1,0,1,1,0,1,1,1,1,1,0}
+     * 0表示空位
+     * 1表示小汽车
+     * 11表示大巴车
+     * 111表示大卡车
+     * 求，最少停车数量
+     */
+    @Test
+    public void test_03() {
+        int[] arr = new int[]{1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0};
+        int t = 0;
+        int res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != 0 && t != 3) {
+                t++;
+            } else {
+                t = 0;
+                res++;
+            }
+        }
+        System.out.println(res);
+        Assert.assertEquals(4, res);
+    }
+
+
+    /**
+     * 二维数组，0和1组成
+     * 1表示当前行和列对应的服务器连通
+     * 0表示不连通
+     * 至少几个服务器发送消息，才能使整个集群收到消息
+     *
+     * todo 连通圆
+     */
+    @Test
+    public void test_04() {
+        int[][] source = new int[][]{
+                {0,1,0,1,0,0,1,1},
+                {0,0,0,1,0,1,1,0},
+                {1,0,1,0,0,0,1,1}
+        };
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

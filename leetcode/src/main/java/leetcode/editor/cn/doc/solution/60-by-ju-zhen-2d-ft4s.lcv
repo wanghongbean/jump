@@ -1,0 +1,36 @@
+### 解题思路
+
+看注释即可
+
+### 代码
+
+* java
+
+```java
+class Solution {
+    public int rearrangeCharacters(String s, String target) {
+        // 创建两个数组用来存放字符串s和target中出现各个字母的数量
+        // 例如：下标为0的位置上如果是1，那么代表字母a出现了1次
+        int[] list1 = new int[26];
+        int[] list2 = new int[26];
+        
+        // 遍历字符串s和target，并记录出现的字母次数
+        for(int i = 0; i < s.length(); i++){
+            ++list1[s.charAt(i) - 'a']; // 等同于 list1[s.charAt(i) - 'a'] = list1[s.charAt(i) - 'a'] + 1
+        }
+        for(int j = 0; j < target.length(); j++){
+            ++list2[target.charAt(j) - 'a'];
+        }
+
+        int ans = Integer.MAX_VALUE;
+        // 经过这个循环后就能找到最小的副本数
+        for(int k = 0; k < 26; k++){
+            if(list2[k] != 0 ){
+                ans = Math.min(ans, list1[k]/list2[k]);   
+            }
+        }
+        return ans;
+    }
+}
+```
+

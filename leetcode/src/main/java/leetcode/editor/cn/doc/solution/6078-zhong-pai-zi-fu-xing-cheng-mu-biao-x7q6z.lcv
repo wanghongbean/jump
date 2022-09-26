@@ -1,0 +1,39 @@
+# 思路
+
+首先开辟两个数组n1和n2，分别记录s和target中的每一个字母的个数
+由于字符可以重复，所以需要将n1和n2做除法，找到最小值
+
+# 代码
+
+* java
+
+```java
+public int rearrangeCharacters(String s, String target) {
+
+        int[] n1=new int[26];
+        for (int i=0;i<s.length();i++){
+            int temp=n1[s.charAt(i)-'a'];
+            n1[s.charAt(i)-'a']=temp+1;
+        }
+
+        int[] n2=new int[26];
+        for (int i=0;i<target.length();i++){
+            int temp=n2[target.charAt(i)-'a'];
+            n2[target.charAt(i)-'a']=temp+1;
+        }
+
+        //find the min equal index of n1 and n2
+        int res=Integer.MAX_VALUE;
+        for (int i=0;i<26;i++){
+            if (n2[i]!=0){
+                if (n1[i]==0){
+                    return 0;
+                }
+                res=Math.min(res,n1[i]/n2[i]);
+            }
+        }
+        return res;
+
+    }
+```
+

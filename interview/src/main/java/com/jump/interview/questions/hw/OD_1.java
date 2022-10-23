@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class OD_1 {
 
@@ -15,7 +16,7 @@ public class OD_1 {
      */
     @Test
     public void test_01() {
-        String input= "adddddsssggkkfs";
+        String input = "adddddsssggkkfs";
         char[] chars = input.toCharArray();
         int maxCount = 0;
         char out = 0;
@@ -25,7 +26,7 @@ public class OD_1 {
             if (map.containsKey(c)) {
                 map.put(c, map.get(c) + 1);
             } else {
-                map.put(c,1);
+                map.put(c, 1);
             }
         }
 
@@ -43,7 +44,7 @@ public class OD_1 {
      */
     @Test
     public void test_02() {
-        String input= "adddddsssggkkfs";
+        String input = "adddddsssggkkfs";
         char[] chars = input.toCharArray();
         int max = 0;
         int macChar = 0;
@@ -86,30 +87,70 @@ public class OD_1 {
      * 1表示当前行和列对应的服务器连通
      * 0表示不连通
      * 至少几个服务器发送消息，才能使整个集群收到消息
-     *
+     * <p>
      * todo 连通圆
      */
     @Test
     public void test_04() {
         int[][] source = new int[][]{
-                {0,1,0,1,0,0,1,1},
-                {0,0,0,1,0,1,1,0},
-                {1,0,1,0,0,0,1,1}
+                {0, 1, 0, 1, 0, 0, 1, 1},
+                {0, 0, 0, 1, 0, 1, 1, 0},
+                {1, 0, 1, 0, 0, 0, 1, 1}
         };
 
 
     }
 
+    @Test
+    public void test_05() {
+        System.out.println("  ".length());
+
+        System.out.println(Integer.parseInt("0xAA", 16));
+    }
 
 
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+        while (in.hasNext()) {
+            String str = in.nextLine();
+            if (str.length() == 0) {
+                return;
+            }
+            int l = str.length();
+            int c = l / 8;
+            for (int i = 0; i < c; i++) {
+                if ((i + 1) * 8 < l) {
+                    System.out.println(str.substring(i * 8, (i + 1) * 8));
+                } else {
+                    String remain = str.substring(i * 8, l);
+                    int zeroL = 8 - remain.length();
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = 0; j < zeroL; j++) {
+                        sb.append("0");
+                    }
+                    System.out.println(remain + sb.toString());
+                }
+
+            }
+        }
+
+    }
 
 
+    @Test
+    public void test_06() {
+        int a = 9876673;
+        String str = String.valueOf(a);
+        char[] ca = str.toCharArray();
+        Integer[] arr = new Integer[10];
 
-
-
-
-
-
-
-
+        for (int i = ca.length - 1;i >= 0; i--) {
+            int idx = Integer.parseInt(String.valueOf(ca[i]));
+            if (arr[idx] == null) {
+                System.out.print(ca[i]);
+                arr[idx] =1;
+            }
+        }
+    }
 }

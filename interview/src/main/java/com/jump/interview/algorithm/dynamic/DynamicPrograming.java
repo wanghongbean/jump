@@ -16,9 +16,9 @@ public class DynamicPrograming {
     public void test_maxValue() {
         int[][] arr = new int[][]{
                 {8},
-                {8,2},
-                {1,4,6},
-                {10,2,3,6}
+                {8, 2},
+                {1, 4, 6},
+                {10, 2, 3, 6}
         };
         System.out.println(maxValue(arr));
     }
@@ -28,20 +28,19 @@ public class DynamicPrograming {
         int[][] dp = new int[arr.length][arr.length];
         dp[0][0] = arr[0][0];
         for (int i = 1; i < arr.length; i++) {
-            System.out.println("i - "+i );
+            System.out.println("i - " + i);
             dp[i][0] = dp[i - 1][0] + arr[i][0];
             max = Math.max(max, dp[i][0]);
-            for (int j = 1; j <=i; j++) {
+            for (int j = 1; j <= i; j++) {
                 dp[i][j] = Math.max(dp[i - 1][j - 1], dp[i - 1][j]) + arr[i][j];
                 max = Math.max(max, dp[i][j]);
-                System.out.println("j = "+j+" max="+max);
+                System.out.println("j = " + j + " max=" + max);
             }
         }
         return max;
     }
 
     /**
-     *
      * 问题：给你一个可放总重量为 W 的背包和 N 个物品，对每个物品，
      * 有重量 w 和价值 v 两个属性，那么第 i 个物品的重量为 w[i]，价值为 v[i]。现在让你用这个背包装物品，问最多能装的价值是多少？
      * 示例：
@@ -52,8 +51,8 @@ public class DynamicPrograming {
      * ----------
      * 0/1 背包状态定义：dp[i][j] 代表使用前 i 个物品，背包最大载重为 j 的情况下的最大价值总和。
      * 状态转移方程：
-     *  - dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]+vi)
-     *  - dp[i+1][j] = max(dp[i][j],dp[i+1][j-w[i]]+vi)
+     * - dp[i][j] = max(dp[i-1][j],dp[i-1][j-w[i]]+vi)
+     * - dp[i+1][j] = max(dp[i][j],dp[i+1][j-w[i]]+vi)
      */
     @Test
     public void test_package_1() {
@@ -65,28 +64,27 @@ public class DynamicPrograming {
 
 
     /**
-     *
-     * @param w 物品重量数组
-     * @param v 物品价值数组
+     * @param w        物品重量数组
+     * @param v        物品价值数组
      * @param packageW 背包可装入的总重量
-     * @param n 物品个数
+     * @param n        物品个数
      * @return 最大价值
      */
-    public int packageMax1(int[] w,int[] v,int packageW,int n) {
-        int[][] dp = new int[n+1][packageW+1];
+    public int packageMax1(int[] w, int[] v, int packageW, int n) {
+        int[][] dp = new int[n + 1][packageW + 1];
         //初始化dp[0] ? 不放物品时，不同剩余重量 时的 value=0
 //        for (int i = 0; i < packageW; i++) {
 //            dp[0][i] = 0;
 //        }
 
         int max = 0;
-        for (int i = 0; i <n; i++) {
-            for (int j = 0; j <=packageW; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= packageW; j++) {
                 if (j < w[i]) {
                     continue;
                 }
-                dp[i+1][j] = Math.max(dp[i][j], dp[i][j - w[i]] + v[i]);
-                max = Math.max(max, dp[i+1][j]);
+                dp[i + 1][j] = Math.max(dp[i][j], dp[i][j - w[i]] + v[i]);
+                max = Math.max(max, dp[i + 1][j]);
             }
         }
         return max;
@@ -112,17 +110,32 @@ public class DynamicPrograming {
         int[] v = new int[]{5, 2, 3};
         int max = packageMax2(w, v, 5, 3);
         System.out.println(max);
+        int max2 = packageMax22(w, v, 5, 3);
+        System.out.println(max2);
     }
 
-    public int packageMax2(int[] w,int[] v,int pw,int num) {
-        int[][] dp = new int[num+1][pw+1];
+    public int packageMax2(int[] w, int[] v, int pw, int num) {
+        int[][] dp = new int[num + 1][pw + 1];
         for (int i = 0; i < num; i++) {
             for (int j = 0; j <= pw; j++) {
                 for (int k = 0; k <= j / w[i]; k++) {
-                    if (j < k*w[i]) {
+                    if (j < k * w[i]) {
                         continue;
                     }
                     dp[i + 1][j] = Math.max(dp[i][j], dp[i][j - k * w[i]] + k * v[i]);
+                }
+            }
+        }
+        return dp[num][pw];
+    }
+
+    public int packageMax22(int[] w, int[] v, int pw, int num) {
+        int[][] dp = new int[num + 1][pw + 1];
+        for (int i = 0; i < num; i++) {
+            for (int j = 0; j <= pw; j++) {
+                dp[i + 1][j] = dp[i][j];
+                if (w[i] <= j) {
+                    dp[i + 1][j] = Math.max(dp[i][j], dp[i][j - w[i]] + v[i]);
                 }
             }
         }

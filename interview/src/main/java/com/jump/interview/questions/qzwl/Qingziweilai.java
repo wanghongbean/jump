@@ -236,19 +236,6 @@ public class Qingziweilai {
 
     }
 
-    public Category get(Category root,int row, int col) {
-        if (root.getId() != 0) {
-            return null;
-        }
-        Queue<Category> queue = new LinkedList<>();
-//        int[] visited = new int[];
-        int[] prev = new int[];
-        while (queue.size() != 0) {
-
-        }
-
-    }
-
 
     class Category {
         private int id;

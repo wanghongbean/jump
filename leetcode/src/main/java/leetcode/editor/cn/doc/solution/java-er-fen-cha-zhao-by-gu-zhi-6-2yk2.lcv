@@ -1,0 +1,29 @@
+这里我们很容易想到要使用二分，个人使用二分喜欢用下面这个模板。
+tip：因为答案的肯定不会是开头和结尾，所以可以用1和n-2的下标来开始搜索。
+
+* 
+
+```
+class Solution {
+    public int peakIndexInMountainArray(int[] arr) {
+        int n = arr.length;
+        // 0, n-1不可能是答案，可以先剔除
+        int left = 1;
+        int right = n - 2;
+        int mid = 0;
+        while(left <= right){
+            mid = left + (right-left)/2;
+            if(arr[mid] > arr[mid-1] && arr[mid] > arr[mid+1]){
+                return mid;
+            }else if(arr[mid] > arr[mid-1]){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+}
+```
+

@@ -1,0 +1,35 @@
+### 解题思路
+
+1. 查看中间元素的变化趋势
+
+- 如果是递增的,在右边找
+- 如果是递减的，在左边找
+- 先增后见，直接返回
+
+### 代码
+
+* j***a
+
+```j***a
+class Solution {
+    public int peakIndexInMountainArray(int[] arr) {
+        int len = arr.length;
+        int low = 0, high = len-1;
+        while(low<high){
+            int middle = (low+high)>>1;
+            // 如果是递增的,在右边找
+            if(arr[middle]>arr[middle-1] && arr[middle]<arr[middle+1]){
+                low = middle;
+            }else if(arr[middle]<arr[middle-1] && arr[middle]>arr[middle+1]){
+            // 如果是递减的，在左边找
+                high = middle;
+            }else{
+                return middle;
+            }
+        }
+        // 没有找到的结果，但是题目保证了必定有答案
+        return -1;
+    }
+}
+```
+

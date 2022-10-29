@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+客户端 -> 业务网关JanusAuthInterceptor: 请求接口
+业务网关JanusAuthInterceptor -> 业务网关JanusAuthInterceptor: cookie中解析token
+客户端 <-- 业务网关JanusAuthInterceptor: 未获取到token信息，返回无权限
+业务网关JanusAuthInterceptor -> 鉴权service: auth，验证token数据
+鉴权service -> redis中间件: 查询token缓存
+鉴权service <-- redis中间件: 命中返回token信息
+鉴权service -> mysql: 查询token
+鉴权service <-- mysql: 返回token
+鉴权service -> redis中间件: 缓存token
+业务网关JanusAuthInterceptor <-- 鉴权service: 返回token
+业务网关JanusAuthInterceptor -> 业务网关JanusAuthInterceptor: 判断token是否过期
+业务网关JanusAuthInterceptor -> 业务网关JanusAuthInterceptor: token存放到UserContext(ThreadLocal),便于后续业务处理获取
+@enduml

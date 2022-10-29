@@ -4,19 +4,20 @@ import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class TestWeee {
 
 
-    public static void main(String[] args) {
-        int[] in = new int[]{56, 13, 26, 35, 32, 42, 72};
-        int[] sort = sort(in);
-        System.out.println(Arrays.toString(sort));//[13， 26， 35， 32， 42， 56， 72]
-        int[] in2 = new int[]{18, 65, 77, 79, 5, 41, 57, 72};
-        int[] sort2 = sort(in2);
-        System.out.println(Arrays.toString(sort2));//[5，18，57，41，72，65，77，79]
-
-    }
+//    public static void main(String[] args) {
+//        int[] in = new int[]{56, 13, 26, 35, 32, 42, 72};
+//        int[] sort = sort(in);
+//        System.out.println(Arrays.toString(sort));//[13， 26， 35， 32， 42， 56， 72]
+//        int[] in2 = new int[]{18, 65, 77, 79, 5, 41, 57, 72};
+//        int[] sort2 = sort(in2);
+//        System.out.println(Arrays.toString(sort2));//[5，18，57，41，72，65，77，79]
+//
+//    }
 
     public static int[] sort(int[] s) {
         int[] r = new int[s.length];
@@ -162,5 +163,66 @@ public class TestWeee {
 //        System.out.println(18 / 20);
         System.out.println(0%2);
         System.out.println(1%2);
+    }
+
+//    public static void main(String[] args) throws InterruptedException {
+//        Thread thread2;
+//        Thread thread1;
+//        thread1= new Thread(() -> {
+//            try {
+//                TimeUnit.SECONDS.sleep(1);
+//            } catch (InterruptedException e) {
+//
+//            }
+//            System.out.println("1");
+//        });
+//        thread2= new Thread(() -> {
+//            try {
+//                TimeUnit.SECONDS.sleep(1);
+//            } catch (InterruptedException e) {
+//
+//            }
+//            System.out.println("2");
+//        });
+//        thread2.join();
+//        try {
+//            TimeUnit.SECONDS.sleep(1);
+//        } catch (InterruptedException e) {
+//
+//        }
+//        thread2.start();
+//        thread1.start();
+//        thread1.join();
+//        System.out.println("3");
+//    }
+
+    public static void main(String[] args) {
+        Thread thread2;
+        Thread thread1;
+        thread2= new Thread(() -> {
+            synchronized (Test.class) {
+                try {
+                    System.out.println("hello world2 start");
+                    Test.class.notify();
+                    Thread.sleep(10000L);
+                    System.out.println("hello world2 end");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        thread1 = new Thread(() -> {
+            synchronized (Test.class) {
+                try {
+                    thread2.start();
+                    System.out.println("hello world1 start");
+                    Test.class.wait();
+                    System.out.println("hello world1 end");
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        thread1.start();
     }
 }
